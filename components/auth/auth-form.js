@@ -1,24 +1,66 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styles from "./auth-form.module.css";
 
-function AuthForm() {
-  const [isLogin, setIsLogin] = useState(true);
+const createUser = async (email, password) => {
+  const response = await fetch("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: { "Content-Type": "application/json" },
+  });
 
-  function switchAuthModeHandler() {
-    setIsLogin((prevState) => !prevState);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Something went wrong!");
   }
+
+  return data;
+};
+
+const AuthForm = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
+
+  const switchAuthModeHandler = () => {
+    setIsLogin((prevState) => !prevState);
+  };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    const enteredEmail = emailInputRef.current.value;
+    const enteredPasword = passwordInputRef.current.value;
+
+    if (isLogin) {
+      // log user in
+    } else {
+      try {
+        const result = await createUser(enteredEmail, enteredPasword);
+        console.log(result);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
 
   return (
     <section className={styles.auth}>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
-      <form>
+      <form onSubmit={submitHandler}>
         <div className={styles.control}>
           <label htmlFor="email">Your Email</label>
-          <input type="email" id="email" required />
+          <input type="email" id="email" required ref={emailInputRef} />
         </div>
         <div className={styles.control}>
           <label htmlFor="password">Your Password</label>
-          <input type="password" id="password" required />
+          <input
+            type="password"
+            id="password"
+            required
+            minLength="7"
+            ref={passwordInputRef}
+          />
         </div>
         <div className={styles.actions}>
           <button>{isLogin ? "Login" : "Create Account"}</button>
@@ -33,6 +75,6 @@ function AuthForm() {
       </form>
     </section>
   );
-}
+};
 
 export default AuthForm;

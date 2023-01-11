@@ -9,7 +9,7 @@ const nextConfigDev = {
   env: {
     mongodb_username: "dario",
     mongodb_password: "BNFJu2qjdTQXsTv4",
-    mongodb_cluster: "cluster0",
+    mongodb_clustername: "cluster0",
     mongodb_database: "auth-demo-dev",
   },
 };
@@ -19,7 +19,7 @@ const nextConfigProd = {
   env: {
     mongodb_username: "dario",
     mongodb_password: "BNFJu2qjdTQXsTv4",
-    mongodb_cluster: "cluster0",
+    mongodb_clustername: "cluster0",
     mongodb_database: "auth-demo",
   },
 };
