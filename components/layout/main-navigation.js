@@ -6,9 +6,6 @@ import styles from "./main-navigation.module.css";
 function MainNavigation() {
   const { data: session, status } = useSession();
 
-  console.log(session);
-  console.log(status);
-
   const logoutHandler = () => {
     signOut({ redirect: false });
   };
