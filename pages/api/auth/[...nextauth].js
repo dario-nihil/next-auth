@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
+("next-auth/providers/credentials");
 
 import { connectToDatabase } from "../../../lib/db";
 import { verifyPassword } from "../../../lib/auth";
@@ -15,11 +16,12 @@ export default NextAuth({
 
         const userCollection = client.db().collection("users");
 
-        const user = userCollection.findOne({ email });
+        const user = await userCollection.findOne({ email });
+        console.log(user);
 
         if (!user) {
           client.close();
-          throw new Error("No user fouind!");
+          throw new Error("No user found!");
         }
 
         const isValid = await verifyPassword(password, user.password);
