@@ -1,4 +1,5 @@
-import { getToken } from "next-auth/jwt";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../../../pages/api/auth/[...nextauth]";
 
 import { verifyPassword, hashPassword } from "../../../lib/auth";
 import { connectToDatabase } from "../../../lib/db";
@@ -8,13 +9,16 @@ export const handler = async (req, res) => {
     return;
   }
 
-  const token = await getToken({ req });
+  const session = await unstable_getServerSession(req, res, authOptions);
 
-  if (!token) {
+  if (!session) {
     return res.status(401).json({ message: "Not authenticated!" });
   }
 
-  const { email } = token;
+  const {
+    user: { email },
+  } = session;
+
   const { oldPassword, newPassword } = req.body;
 
   let client;

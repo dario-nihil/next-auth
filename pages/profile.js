@@ -1,21 +1,20 @@
-import { getToken } from "next-auth/jwt";
 import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
 
 import UserProfile from "../components/profile/user-profile";
 
-function ProfilePage() {
+const ProfilePage = () => {
   return <UserProfile />;
-}
+};
 
 export const getServerSideProps = async (context) => {
-  console.log(context);
-  console.log("in profile");
-  console.log("context");
-  const token = await getToken({ req: context.req });
-  console.log(token);
-  // const session = await unstable_getServerSession(req, res);
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
 
-  if (!token) {
+  if (!session) {
     return {
       redirect: {
         destination: "/auth",
@@ -25,7 +24,9 @@ export const getServerSideProps = async (context) => {
   }
 
   return {
-    props: {},
+    props: {
+      session,
+    },
   };
 };
 

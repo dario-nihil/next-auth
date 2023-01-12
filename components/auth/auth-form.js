@@ -45,17 +45,12 @@ const AuthForm = () => {
         password: enteredPasword,
       });
 
-      console.log("inside authForm");
-      console.log(result);
-
       if (!result.error) {
-        console.log("redirect");
-        router.replace("/profile");
+        router.replace("/");
       }
     } else {
       try {
-        const result = await createUser(enteredEmail, enteredPasword);
-        console.log(result);
+        await createUser(enteredEmail, enteredPasword);
       } catch (error) {
         console.log(error.message);
       }

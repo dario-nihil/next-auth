@@ -1,23 +1,20 @@
 import NextAuth from "next-auth/next";
-import Credentials from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 ("next-auth/providers/credentials");
 
 import { connectToDatabase } from "../../../lib/db";
 import { verifyPassword } from "../../../lib/auth";
 
-export default NextAuth({
-  jwt: {
-    maxAge: 60 * 60 * 24 * 30,
-  },
+export const authOptions = {
   providers: [
-    Credentials({
+    CredentialsProvider({
+      name: "Credentials",
       authorize: async ({ email, password }) => {
         const client = await connectToDatabase();
 
         const userCollection = client.db().collection("users");
 
         const user = await userCollection.findOne({ email });
-        console.log(user);
 
         if (!user) {
           client.close();
@@ -31,8 +28,12 @@ export default NextAuth({
         }
 
         client.close();
-        return { email: user.email };
+        return { name: null, email: user.email, image: null };
       },
     }),
   ],
-});
+  secret: process.env.NEXTAUTH_SECRET,
+  session: { strategy: "jwt" },
+};
+
+export default NextAuth(authOptions);

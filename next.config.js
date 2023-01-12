@@ -11,6 +11,7 @@ const nextConfigDev = {
     mongodb_password: "BNFJu2qjdTQXsTv4",
     mongodb_clustername: "cluster0",
     mongodb_database: "auth-demo-dev",
+    NEXTAUTH_SECRET: "X5MwvZ+E5UCekd9E6Z5lFQAN8WUjM5Jdd/nF+/S6DhQ=",
   },
 };
 
@@ -21,6 +22,7 @@ const nextConfigProd = {
     mongodb_password: "BNFJu2qjdTQXsTv4",
     mongodb_clustername: "cluster0",
     mongodb_database: "auth-demo",
+    NEXTAUTH_SECRET: "X5MwvZ+E5UCekd9E6Z5lFQAN8WUjM5Jdd/nF+/S6DhQ=",
   },
 };
 

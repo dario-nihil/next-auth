@@ -1,6 +1,6 @@
 import styles from "./starting-page.module.css";
 
-function StartingPageContent() {
+const StartingPageContent = () => {
   // Show Link to Login page if NOT auth
 
   return (
@@ -8,6 +8,6 @@ function StartingPageContent() {
       <h1>Welcome on Board!</h1>
     </section>
   );
-}
+};
 
 export default StartingPageContent;

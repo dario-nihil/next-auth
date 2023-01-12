@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import AuthForm from "../components/auth/auth-form";
 
 const AuthPage = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
   if (session) {
